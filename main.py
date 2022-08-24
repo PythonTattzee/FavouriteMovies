@@ -16,10 +16,7 @@ from wtforms.validators import DataRequired
 import requests
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
-SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 
 
 Bootstrap(app)
@@ -82,7 +79,7 @@ def home():
     all_movies = Movie.query.order_by(desc(Movie.rating)).all()
     all_comments = Comment.query.all()
     comment_form = CommentForm()
-    if request.method == "POST":
+    if comment_form.validate_on_submit():
         if not current_user.is_authenticated:
             flash("You need to login or register to comment.")
             return redirect(url_for("login"))
@@ -224,4 +221,4 @@ def delete():
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
