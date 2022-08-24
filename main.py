@@ -76,7 +76,7 @@ class Comment(db.Model):
 # db.create_all()
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
     all_movies = Movie.query.order_by(desc(Movie.rating)).all()
     all_comments = Comment.query.all()
