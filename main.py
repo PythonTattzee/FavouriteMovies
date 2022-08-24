@@ -16,7 +16,8 @@ from wtforms.validators import DataRequired
 import requests
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///movies.db'
 
 
 Bootstrap(app)
@@ -45,7 +46,7 @@ class User(UserMixin, db.Model):
     comments = relationship("Comment", back_populates="comment_author")
 
 
-db.create_all()
+# db.create_all()
 
 class Movie(db.Model):
     __tablename__ = "movies"
@@ -61,7 +62,7 @@ class Movie(db.Model):
         return '<Movie %r>' % self.title
 
 
-db.create_all()
+# db.create_all()
 
 class Comment(db.Model):
     __tablename__ = "comments"
@@ -71,7 +72,7 @@ class Comment(db.Model):
     comment_author = relationship("User", back_populates="comments")
 
 
-db.create_all()
+# db.create_all()
 
 
 @app.route("/", methods=["GET", "POST"])
