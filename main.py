@@ -17,7 +17,7 @@ import requests
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://omzpesyxmezots:a09466dd9e59c0b199f052882e76752b3f6b9fc54b48b2c7f4c5b22ce7a27cff@ec2-44-193-178-122.compute-1.amazonaws.com:5432/de79p8il11u0ho"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
