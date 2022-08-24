@@ -1,27 +1,16 @@
-{% extends 'bootstrap/base.html' %}
-
-{% block styles %}
-  {{ super() }}
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-{% endblock %}
-
-{% block title %}My Top 10 Movies{% endblock %}
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
 <div class="container">
-    <h1 class="heading">My Top 10 Movies</h1>
-    <p class="description">These are my all time favourite movies.</p>
+    <div class="row">
    {% for movie in movies: %}
-    <div class="col-lg-3 col-sm-6">
-        <div class="card" >
-            <div class="front" style="background-image: url('{{ movie.img_url }}');">
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+        <div class="card" id="cardmovie">
+            <div class="card-side front" style="background-image: url('{{ movie.img_url }}');">
                 <p class="large">{{ movie.id }}</p>
             </div>
-            <div class="back">
+            <div class="card-side back">
                 <div>
                     <div class="title">
                         {{ movie.title }}</br>
@@ -34,16 +23,43 @@
                     <p class="review">{{ movie.review }}</p>
                     <p class="overview">{{ movie.overview }}</p>
 
-                    <a href="{{ url_for('edit', id=movie.id) }}" class="button">Update</a>
-                    <a href="{{ url_for('delete', id=movie.id) }}" class="button delete-button">Delete</a>
+                    <a href="{{ url_for('edit', id=movie.id) }}" class="btn btn-primary">Update</a>
+                    <a href="{{ url_for('delete', id=movie.id) }}" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
     </div>
     {% endfor %}
+    </div>
 </div>
 <div class="container text-center add">
-<a href="{{ url_for('add',page='add.html') }}" class="button">Add Movie</a>
+    <a href="{{ url_for('add',page='add.html') }}" class="btn btn-primary">Add Movie</a>
+</div>
+<div class="container">
+    {{ ckeditor.load() }}
+    {{ ckeditor.config(name='comment_text') }}
+    {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+
+
+    {% for comment in comments: %}
+
+    <div class="card mb-4">
+          <div class="card-body">
+            <p>{{comment.text|safe}}</p>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row align-items-center">
+                <img src="{{ comment.comment_author.email | gravatar }}" alt="avatar" width="25"
+                  height="25" />
+                <p class="small mb-0 ms-2">{{comment.comment_author.name}}</p>
+              </div>
+            </div>
+            <a href="{{ url_for('delete_comment', author_id=user_id) }}" class="btn btn-danger">Delete</a>
+          </div>
+        </div>
+
+
+    {% endfor %}
 </div>
 
 {% endblock %}
