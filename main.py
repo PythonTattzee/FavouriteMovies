@@ -81,7 +81,7 @@ def home():
     all_movies = Movie.query.order_by(desc(Movie.rating)).all()
     all_comments = Comment.query.all()
     comment_form = CommentForm()
-    if comment_form.validate_on_submit():
+    if request.method == "POST":
         if not current_user.is_authenticated:
             flash("You need to login or register to comment.")
             return redirect(url_for("login"))
