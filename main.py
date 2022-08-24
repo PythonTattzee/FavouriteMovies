@@ -45,8 +45,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(100))
     comments = relationship("Comment", back_populates="comment_author")
 
-
-# db.create_all()
+db.create_all()
 
 class Movie(db.Model):
     __tablename__ = "movies"
@@ -61,8 +60,7 @@ class Movie(db.Model):
     def __repr__(self):
         return '<Movie %r>' % self.title
 
-
-# db.create_all()
+db.create_all()
 
 class Comment(db.Model):
     __tablename__ = "comments"
@@ -71,8 +69,7 @@ class Comment(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     comment_author = relationship("User", back_populates="comments")
 
-
-# db.create_all()
+db.create_all()
 
 
 @app.route("/", methods=["GET", "POST"])
