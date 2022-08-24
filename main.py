@@ -16,8 +16,9 @@ from wtforms.validators import DataRequired
 import requests
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///movies.db'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL",  "sqlite:///blog.db")
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///movies.db'
 
 
 Bootstrap(app)
